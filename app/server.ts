@@ -8,7 +8,7 @@ import reportRoutes from './routes/report-routes';
 import mapRoutes from './routes/map-routes';
 import apiRoutes from './routes/api-routes';
 import statisticsRoutes from './routes/statistics-routes';
-import variousRoutes from './routes/various-routes';
+import variousRoutes, { localeCookieName } from './routes/various-routes';
 import { getInstance } from './repository/Database';
 import { swaggerDocument } from './swagger';
 import { urls } from './domain/urls';
@@ -20,12 +20,15 @@ const port = process.env.PORT || 7272;
 const isDevelopmentEnv = process.env.NODE_ENV === 'dev';
 
 i18n.configure({
-  locales: [config.LANGUAGE],
+  locales: config.SUPPORTED_LOCALES,
   defaultLocale: config.LANGUAGE,
+  cookie: localeCookieName,
   updateFiles: false,
-  directory: `${__dirname}/locales`
+  directory: `${__dirname}/locales`,
+  queryParameter: 'lang'
 });
 
+app.use(cookieParser());
 app.use(i18n.init);
 
 app.use((req, res, next) => {
@@ -54,7 +57,6 @@ const cacheKey = process.env.CACHE_KEY || `${Math.random()}`.replace('.', '');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 app.use((req, res, next) => {
   // eslint-disable-next-line prefer-destructuring
@@ -63,6 +65,7 @@ app.use((req, res, next) => {
   res.locals.lastCommit = process.env.CACHE_KEY || null;
   res.locals.imageSubfolder = config.LANGUAGE;
   res.locals.htmlLang = config.LANGUAGE;
+  res.locals.supportedLocales = config.SUPPORTED_LOCALES;
   res.locals.country = config.COUNTRY;
   res.locals.baseUrl = config.BASE_URL;
   res.locals.zipGuide = config.ZIP_GUIDE;

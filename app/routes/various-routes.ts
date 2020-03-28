@@ -2,7 +2,15 @@ import express from 'express';
 import { urls } from '../domain/urls';
 import config from '../config';
 
+export const localeCookieName = 'coronastatusLocale';
+
 const router = express.Router();
+
+const cookieOptions = {
+  maxAge: 31557600000, // maxAge is set to 1 year in ms
+  httpOnly: true, // httpOnly means the cookie is only accessible by the web server
+  signed: false // signed indicates if the cookie should be signed
+};
 
 router.get(`${urls.privacyPolicy}`, (req, res) => {
   return res.render(
@@ -17,6 +25,14 @@ router.get(`${urls.contributors}`, (req, res) => {
 router.get('/robots.txt', (req, res) => {
   res.type('text/plain');
   return res.render('pages/robots');
+});
+
+router.get('/lang/:locale', (req, res) => {
+  const { locale } = req.params;
+  if (locale) {
+    res.cookie(localeCookieName, locale, cookieOptions);
+  }
+  res.redirect('/');
 });
 
 export default router;

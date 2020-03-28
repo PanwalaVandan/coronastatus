@@ -1,0 +1,20 @@
+<%
+  const { supportedLocales } = locals;
+%>
+
+<% if (locals.supportedLocales && locals.supportedLocales.length > 1) {
+<div class="language-selector inline-block relative text-xl">
+  <div class="flex items-center pt-2 pl-5">
+    <span class="flag-icon flag-icon-gr"></span>
+    <svg class="fill-current h-4 w-4 ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
+  </div>
+  <ul class="language-selector-menu absolute hidden pt-1 pl-4">
+    <li class=""><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="/lang/nl">
+    <span class="flag-icon flag-icon-nl"></span></a></li>
+    <li class=""><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="/lang/no">
+    <span class="flag-icon flag-icon-no"></span></a></li>
+    <li class=""><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="/lang/en">
+    <span class="flag-icon flag-icon-uk"></span></a></li>
+  </ul>
+</div>
+<% } %>
