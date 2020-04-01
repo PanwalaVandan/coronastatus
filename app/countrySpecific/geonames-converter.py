@@ -8,7 +8,7 @@ COUNTRY_CODE = 'in'
 COUNTRY_CODE = 'bd'
 >>>>>>> 054fece832c945a692cc21ea63edd13fa532434d:app/countrySpecific/geonames-converter.py
 
-# Parse CSV for a given country from Geonames.org 
+# Parse CSV for a given country from Geonames.org
 rows = []
 with open('%s.txt' % COUNTRY_CODE.upper(), 'r') as f:
     fieldnames = [
@@ -36,7 +36,7 @@ for row in rows:
     if not municipality in municipalities:
         municipalities[municipality] = {'postalCodes': []}
     municipalities[municipality]['postalCodes'].append(row.get('postal code'))
-        
+
 with open('%s-municipalities.json' % COUNTRY_CODE, 'w') as f:
     write_as_json(municipalities, f, indent=2, separators=(',', ': '))
 
